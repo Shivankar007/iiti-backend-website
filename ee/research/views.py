@@ -1,24 +1,24 @@
 from rest_framework.views import APIView
-from .serializer import ResearchSerializers, PapersSerializers, ProjectsSerializers, LabsSerializer
+from .serializer import ResearchSerializers, PapersSerializers, ProjectsSerializers, PGLabsSerializer, UGLabsSerializer
 from rest_framework.response import Response
 from rest_framework import status
-from .models import Research, Projects, Papers, Labs
-from people.models import BTech
-# Create your views here.
-# from course.models import
+from .models import Research, Projects, Papers, PGLabs, UGLabs
+from achievements.models import Books
 import pandas as pd
 
 
 def faculty():
     df = pd.read_csv(
-        r'D:\projects\EE Website\ee-website-backend\ee\data\new.csv')
+        r'D:\projects\EE Website\ee-website-backend\ee\research\research3.csv')
+    specialization = df.specialization.tolist()
     name = df.name.tolist()
-    roll_no = df.roll_no.tolist()
-    year = df.year.tolist()
+    person = df.person.tolist()
+    description = df.description.tolist()
     for i in range(len(name)):
-        data = BTech.objects.create(name=name[i],
-                                       roll_no=roll_no[i],
-                                       year=year[i])
+        data = Research.objects.create(specialization=specialization[i],
+                                    name=name[i],
+                                    person=person[i],
+                                    description=description[i])
         data.save()
 
 
@@ -72,7 +72,7 @@ class GetProjectView(APIView):
 class LabsView(APIView):
     def post(self, request):
         if request.method == "POST":
-            serializer = LabsSerializer(data=request.data)
+            serializer = PGLabsSerializer(data=request.data)
             if serializer.is_valid():
                 data = serializer.create(request.data)
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -80,16 +80,30 @@ class LabsView(APIView):
         return Response({"message": "{} method is not allowed".format(request.method)})
 
 
-class GetLabsView(APIView):
+class GetUGLabsView(APIView):
+    def get(self, request):
+        faculty()
+        print("hwloooo")
+        if request.method == "GET":
+            try:
+                Lab = UGLabs.objects.all()
+            except Lab.DoesNotExist:
+                return Response({"error": "No Labs"}, status=404)
+            Lab = UGLabsSerializer(Lab, many=True)
+            return Response(Lab.data)
+        return Response({"message": "{} method is not allowed".format(request.method)})
+
+
+class GetPGLabsView(APIView):
     def get(self, request):
         # faculty()
         print("hwloooo")
         if request.method == "GET":
             try:
-                Lab = Labs.objects.all()
+                Lab = PGLabs.objects.all()
             except Lab.DoesNotExist:
                 return Response({"error": "No Labs"}, status=404)
-            Lab = LabsSerializer(Lab, many=True)
+            Lab = PGLabsSerializer(Lab, many=True)
             return Response(Lab.data)
         return Response({"message": "{} method is not allowed".format(request.method)})
 

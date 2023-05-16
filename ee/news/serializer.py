@@ -12,7 +12,8 @@ class NewsSerializer(serializers.ModelSerializer):
                                    description=validated_data.get(
                                        'description'),
                                    date=validated_data.get('date'),
-                                   link=validated_data.get('link'))
+                                   link=validated_data.get('link'),
+                                   image=validated_data.get('image'))
         return news
 
     def update(self, validated_data):

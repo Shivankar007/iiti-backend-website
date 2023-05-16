@@ -1,19 +1,22 @@
 from rest_framework import serializers
 from .models import Events
 
+
 class EventsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Events
         fields = '__all__'
-    
-    def create(self,validated_data):
+
+    def create(self, validated_data):
         event = Events.objects.create(title=validated_data.get('title'),
-                                                    description=validated_data.get(
-                                                        'description'),
-                                                    date=validated_data.get('date'),
-                                                    month=validated_data.get('month'),
-                                                    day=validated_data.get('day'),
-                                                    time=validated_data.get('time'))
+                                      description=validated_data.get(
+            'description'),
+            date=validated_data.get('date'),
+            month=validated_data.get('month'),
+            day=validated_data.get('day'),
+            image=validated_data.get('image'),
+            link=validated_data.get('link'),
+            time=validated_data.get('time'))
         return event
 
     def update(self, validated_data):
@@ -34,5 +37,6 @@ class EventsSerializer(serializers.ModelSerializer):
             event.day = validated_data.get('day')
         if validated_data.get('time'):
             event.time = validated_data.get('time')
-        event.save(update_fields=['title', 'description', 'date', 'month', 'day', 'time'])
+        event.save(update_fields=[
+                   'title', 'description', 'date', 'month', 'day', 'time'])
         return event

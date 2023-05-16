@@ -11,6 +11,7 @@ class Events(models.Model):
     day = models.CharField(max_length=15)
     time = models.TimeField()
     link = models.URLField(blank=True)
+    image = models.ImageField(blank=True, null=True, upload_to='images/')
 
     def __str__(self):
         return self.title

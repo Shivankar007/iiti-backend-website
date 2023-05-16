@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Research, Labs, Papers, Projects
+from .models import Research, PGLabs, Papers, Projects, UGLabs
 
 
 class ResearchSerializers(serializers.ModelSerializer):
@@ -11,7 +11,9 @@ class ResearchSerializers(serializers.ModelSerializer):
         research = Research.objects.create(specialization=validated_data.get('specialization'),
                                            person=validated_data.get('person'),
                                            name=validated_data.get('name'),
-                                           description=validated_data.get('description'))
+                                           description=validated_data.get(
+                                               'description'),
+                                           link=validated_data.get('link'))
         return research
 
     def update(self, validated_data):
@@ -32,23 +34,31 @@ class ResearchSerializers(serializers.ModelSerializer):
         return research
 
 
-class LabsSerializer(serializers.ModelSerializer):
+class PGLabsSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Labs
+        model = PGLabs
         fields = '__all__'
 
     def create(self, validated_data):
-        labs = Labs.objects.create(name=validated_data.get('name'),
-                                   person=validated_data.get('person'),
-                                   link=validated_data.get('link'))
+        labs = PGLabs.objects.create(name=validated_data.get('name'),
+                                     person=validated_data.get('person'),
+                                     link=validated_data.get('link'),
+                                     description=validated_data.get('description'),
+                                     location=validated_data.get('location'),
+                                     area=validated_data.get('area'),
+                                     category=validated_data.get('category'),
+                                     equipments=validated_data.get('equipments'),
+                                     review=validated_data.get('review'),
+                                     keywords=validated_data.get('keywords'),
+                                     image=validated_data.get('image'),)
         return labs
 
     def update(self, validated_data):
         try:
-            labs = Labs.objects.get(id=validated_data['labs_id'])
+            labs = PGLabs.objects.get(id=validated_data['labs_id'])
         except labs.DoesNotExist:
             raise ValueError('lab with the required id does not exist')
-        
+
         if validated_data.get('name'):
             labs.name = validated_data.get('name')
         if validated_data.get('link'):
@@ -58,6 +68,19 @@ class LabsSerializer(serializers.ModelSerializer):
         labs.save(update_fields=['name', 'person', 'link'])
 
 
+class UGLabsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UGLabs
+        fields = '__all__'
+    
+    def create(self,validated_data):
+        ugLab = UGLabs.objects.create(name=validated_data.get('name'),
+                                     experiments=validated_data.get('experiments'),
+                                     equipments=validated_data.get('equipments'),
+                                      image=validated_data.get('image'))
+        return ugLab
+
+
 class PapersSerializers(serializers.ModelSerializer):
     class Meta:
         model = Papers
@@ -65,8 +88,8 @@ class PapersSerializers(serializers.ModelSerializer):
 
     def create(self, validated_data):
         Paper = Papers.objects.create(specialization=validated_data.get('specialization'),
-                                           person=validated_data.get('person'),
-                                           year=validated_data.get('year'))
+                                      person=validated_data.get('person'),
+                                      year=validated_data.get('year'))
         return Paper
 
     def update(self, validated_data):
@@ -94,10 +117,12 @@ class ProjectsSerializers(serializers.ModelSerializer):
 
     def create(self, validated_data):
         Project = Projects.objects.create(title=validated_data.get('title'),
-                                           worker=validated_data.get('worker'),
-                                           funding=validated_data.get('funding'),
-                                           duration=validated_data.get('duration'),
-                                           project_type=validated_data.get('project_type'),)
+                                          worker=validated_data.get('worker'),
+                                          funding=validated_data.get(
+                                              'funding'),
+                                          duration=validated_data.get(
+                                              'duration'),
+                                          project_type=validated_data.get('project_type'),)
         return Project
 
     def update(self, validated_data):

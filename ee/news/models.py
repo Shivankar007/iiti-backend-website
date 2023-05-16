@@ -6,6 +6,7 @@ class News(models.Model):
     description = models.CharField(max_length=1000)
     date = models.DateField()
     link = models.URLField(blank=True)
+    image = models.ImageField(blank=True, null=True, upload_to='images/')
 
     def __str__(self):
         return self.title

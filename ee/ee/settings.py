@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     "people",
     "research",
     "course",
+    "achievements"
 ]
 
 MIDDLEWARE = [
@@ -58,11 +59,9 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     'corsheaders.middleware.CorsMiddleware',
-
-
 ]
 
-CORS_ORIGIN_WHITELIST = ['http://localhost:3000']
+CORS_ORIGIN_WHITELIST = ['http://localhost:3000','https://iiti-ee-test.netlify.app']
 
 ROOT_URLCONF = "ee.urls"
 

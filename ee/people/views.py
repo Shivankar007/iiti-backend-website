@@ -5,7 +5,40 @@ from rest_framework import status
 from .models import BTech, Faculty, Staff, MTech, Alumni, Phd
 # from .manager import btech
 # Create your views here.
+import pandas as pd
+import os
+from .models import BTech
+from PIL import Image
 
+from django.core.files import File
+from django.core.files.images import ImageFile
+
+# def btech():
+#     direct = os.listdir(
+#         r'D:\projects\EE Website\ee-website-backend\ee\people\final_files')[::2]
+#     print(direct)
+#     roll_list = []
+#     for i in range(1, 85):
+#         if i != 17:
+#             # print(i)
+#             roll = 220002000+i
+#             roll_list.append(roll)
+
+#     for i in range(len(direct)):
+#         image_path = f"D:/projects/EE Website/ee-website-backend/ee/people/final_files/{direct[i]}"
+#         im = open(image_path, 'rb')
+#         django_file = File(im)
+#         print(django_file)
+#         django_image_file = ImageFile(im)
+#         btech = BTech.objects.get(roll_no=roll_list[i])
+#         print(btech)
+#         btech.image.save(f'{roll_list[i]}.jpg', django_file, save=True)
+#         # print(btech.image)
+#         im.close()
+#         # obj = serializer.save(created_by=self.request.user) aise karrrr haaa ruk naaa
+
+#         # btech.save(update_fields=['image'])
+        
 
 # class PeopleView(APIView):
 #     def post(self, request):
@@ -22,6 +55,7 @@ class GetFacultyView(APIView):
     def get(self, request):
         if request.method == "GET":
             try:
+                # btech()
                 faculty = Faculty.objects.all()
             except Faculty.DoesNotExist:
                 return Response({"error": "No faculty"}, status=404)
