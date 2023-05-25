@@ -13,32 +13,33 @@ from PIL import Image
 from django.core.files import File
 from django.core.files.images import ImageFile
 
-# def btech():
-#     direct = os.listdir(
-#         r'D:\projects\EE Website\ee-website-backend\ee\people\final_files')[::2]
-#     print(direct)
-#     roll_list = []
-#     for i in range(1, 85):
-#         if i != 17:
-#             # print(i)
-#             roll = 220002000+i
-#             roll_list.append(roll)
 
-#     for i in range(len(direct)):
-#         image_path = f"D:/projects/EE Website/ee-website-backend/ee/people/final_files/{direct[i]}"
-#         im = open(image_path, 'rb')
-#         django_file = File(im)
-#         print(django_file)
-#         django_image_file = ImageFile(im)
-#         btech = BTech.objects.get(roll_no=roll_list[i])
-#         print(btech)
-#         btech.image.save(f'{roll_list[i]}.jpg', django_file, save=True)
-#         # print(btech.image)
-#         im.close()
-#         # obj = serializer.save(created_by=self.request.user) aise karrrr haaa ruk naaa
+def btech():
+    direct = os.listdir(
+        r'D:\projects\EE Website\ee-website-backend\ee\people\final\btech')[::2]
+    print(direct)
+    roll_list = []
+    for i in range(1, 86):
+        if i not in [38, 70, 79]:
+            # print(i)
+            roll = 200002000+i
+            roll_list.append(roll)
+    roll_list.extend([200003003, 200004001])
+    for i in range(len(direct)):
+        image_path = f"D:/projects/EE Website/ee-website-backend/ee/people/final/btech/{direct[i]}"
+        im = open(image_path, 'rb')
+        django_file = File(im)
+        # print(django_file)
+        django_image_file = ImageFile(im)
+        btech = BTech.objects.get(roll_no=roll_list[i])
+        # print(btech)
+        btech.image.save(f'{roll_list[i]}.jpg', django_file, save=True)
+        # print(btech.image)
+        im.close()
+        # obj = serializer.save(created_by=self.request.user) aise karrrr haaa ruk naaa
 
-#         # btech.save(update_fields=['image'])
-        
+        # btech.save(update_fields=['image'])
+
 
 # class PeopleView(APIView):
 #     def post(self, request):

@@ -82,7 +82,7 @@ class LabsView(APIView):
 
 class GetUGLabsView(APIView):
     def get(self, request):
-        faculty()
+        # faculty()
         print("hwloooo")
         if request.method == "GET":
             try:
